@@ -122,7 +122,26 @@ let's compile this smart contract written in Solidity to Ethereum bytecode and a
    ```
 
 ## Interacting with smart contracts
+> env: /Users/danyow/Desktop/self-learning/BlockChain_env/bin/activate 
 
+To interact with your smart contract that resides in Ethereum blockchain,
+execute this command inside your Truffle project directory:
+`truffle console`
+報錯了
+```
+Error: Returned values aren't valid, did it run Out of Gas? You might also see this error if you are not using the correct ABI for the contract you are retrieving data from, requesting data from a block number that does not exist, or querying a node which is not fully synced.
+    at evalmachine.<anonymous>
+    at processTicksAndRejections (node:internal/process/task_queues:95:5) {
+  hijackedStack: "Error: Returned values aren't valid, did it run Out of Gas? You might also see this error if you are not using the correct ABI for the contract you are retrieving data from, requesting data from a block number that does not exist, or querying a node which is not fully synced.\n" +
+    '    at ABICoder.decodeParametersWith (/Users/danyow/.npm-global/lib/node_modules/truffle/build/webpack:/node_modules/web3-eth-abi/lib/index.js:304:1)\n' +
+    '    at ABICoder.decodeParameters (/Users/danyow/.npm-global/lib/node_modules/truffle/build/webpack:/node_modules/web3-eth-abi/lib/index.js:291:1)\n' +
+    '    at Contract._decodeMethodReturn (/Users/danyow/.npm-global/lib/node_modules/truffle/build/webpack:/node_modules/web3-eth-contract/lib/index.js:494:1)\n' +
+    '    at Method.outputFormatter (/Users/danyow/.npm-global/lib/node_modules/truffle/build/webpack:/node_modules/web3-eth-contract/lib/index.js:818:1)\n' +
+    '    at Method.formatOutput (/Users/danyow/.npm-global/lib/node_modules/truffle/build/webpack:/node_modules/web3-core-method/lib/index.js:148:1)\n' +
+    '    at sendTxCallback (/Users/danyow/.npm-global/lib/node_modules/truffle/build/webpack:/node_modules/web3-core-method/lib/index.js:546:1)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:82:21)'
+}
+```
 ## Why smart contracts 
 
 ## Summary
