@@ -122,26 +122,129 @@ let's compile this smart contract written in Solidity to Ethereum bytecode and a
    ```
 
 ## Interacting with smart contracts
-> env: /Users/danyow/Desktop/self-learning/BlockChain_env/bin/activate 
+> env: /Users/danyow/Desktop/self-learning/BlockChain_env
+> 
 
 To interact with your smart contract that resides in Ethereum blockchain,
 execute this command inside your Truffle project directory:
 `truffle console`
+在終端進行輸入
+```
+Donation.deployed().then(function(instance) { return instance.useless_variable.call(); });
+```
+
 報錯了
 ```
 Error: Returned values aren't valid, did it run Out of Gas? You might also see this error if you are not using the correct ABI for the contract you are retrieving data from, requesting data from a block number that does not exist, or querying a node which is not fully synced.
-    at evalmachine.<anonymous>
-    at processTicksAndRejections (node:internal/process/task_queues:95:5) {
-  hijackedStack: "Error: Returned values aren't valid, did it run Out of Gas? You might also see this error if you are not using the correct ABI for the contract you are retrieving data from, requesting data from a block number that does not exist, or querying a node which is not fully synced.\n" +
-    '    at ABICoder.decodeParametersWith (/Users/danyow/.npm-global/lib/node_modules/truffle/build/webpack:/node_modules/web3-eth-abi/lib/index.js:304:1)\n' +
-    '    at ABICoder.decodeParameters (/Users/danyow/.npm-global/lib/node_modules/truffle/build/webpack:/node_modules/web3-eth-abi/lib/index.js:291:1)\n' +
-    '    at Contract._decodeMethodReturn (/Users/danyow/.npm-global/lib/node_modules/truffle/build/webpack:/node_modules/web3-eth-contract/lib/index.js:494:1)\n' +
-    '    at Method.outputFormatter (/Users/danyow/.npm-global/lib/node_modules/truffle/build/webpack:/node_modules/web3-eth-contract/lib/index.js:818:1)\n' +
-    '    at Method.formatOutput (/Users/danyow/.npm-global/lib/node_modules/truffle/build/webpack:/node_modules/web3-core-method/lib/index.js:148:1)\n' +
-    '    at sendTxCallback (/Users/danyow/.npm-global/lib/node_modules/truffle/build/webpack:/node_modules/web3-core-method/lib/index.js:546:1)\n' +
-    '    at processTicksAndRejections (node:internal/process/task_queues:82:21)'
+```
+不會解決跳過了。
+
+，Truffle控制台使用回调的概念，在回调上异步执行对智能合约对象的访问。
+Truffle控制台中的此语句在执行回调之前立即返回。
+
+在回调函数中，您将接受智能合约实例作为`instance`参数。然后，我们可以从这个实例参数访问我们的`useless_variable`变量。然后，为了检索值，我们必须对该变量执行调用方法。
+
+Truffle框架将使用Donation.json文件中定义的abi来了解智能合约中可用的接口。回想一下
+您可以在智能合约中定义uselessvariable，并在构造函数（或初始化）函数中将其设置为Donation字符串。以这种方式读取公共变量是免费的；它不需要任何以太币，因为它存储在区块链中
+
+再輸入
+```
+Donation.deployed().then(function(instance) { return instance.change_useless_variable("sky is blue", {from: "0xc98abE91356000e656d53b1edFC716369b37c524" }); });
+```
+返回 
+```
+{
+  tx: '0x729429697878bcfd9df9be6739133525f568a14aa77d312052f73227a49dc1d1',
+  receipt: {
+    transactionHash: '0x729429697878bcfd9df9be6739133525f568a14aa77d312052f73227a49dc1d1',
+    transactionIndex: 0,
+    blockNumber: 2,
+    blockHash: '0x9e3276b82c9a902ccc17932cb2e907fba0dc60f6bcbe442d20c7361f1f9e3fbb',
+    from: '0xc98abe91356000e656d53b1edfc716369b37c524',
+    to: '0xf725b914e004cda152a0799c1411698bb73998e8',
+    cumulativeGasUsed: 29789,
+    gasUsed: 29789,
+    contractAddress: null,
+    logs: [],
+    logsBloom: '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+    status: true,
+    effectiveGasPrice: 3277546336,
+    type: '0x2',
+    rawLogs: []
+  },
+  logs: []
+}
+
+```
+### Sending ether to smart contracts 
+现在，让我们向智能合约发送一些以太币。让我们使用第二个帐户。第二个帐户想使用智能捐赠5以太币
+合同如下：
+```
+Donation.deployed().then(function(instance) { return instance.donate({ from: "0xc98abE91356000e656d53b1edFC716369b37c524", value:5000000000000000000 }); });
+```
+返回
+```python
+truffle(development)> Donation.deployed().then(function(instance) { return instance.donate({ from: "0xc98abE91356000e656d53b1edFC716369b37c524", value:5000000000000000000 }); });
+{
+  tx: '0x7879654a56ff6fb6dac2b04d86553ab4a30c99ff8fc476ea37fd5522c733bfdc',
+  receipt: {
+    transactionHash: '0x7879654a56ff6fb6dac2b04d86553ab4a30c99ff8fc476ea37fd5522c733bfdc',
+    transactionIndex: 0,
+    blockNumber: 3,
+    blockHash: '0x4127c5a039c4b834d3902c4197999bd5ebf20a1ce2b8558bee94f781992be423',
+    from: '0xc98abe91356000e656d53b1edfc716369b37c524',
+    to: '0xf725b914e004cda152a0799c1411698bb73998e8',
+    cumulativeGasUsed: 65551,
+    gasUsed: 65551,
+    contractAddress: null,
+    logs: [],
+    logsBloom: '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+    status: true,
+    effectiveGasPrice: 3181214485,
+    type: '0x2',
+    rawLogs: []
+  },
+  logs: []
+}
+```
+為什麼value會有那麼多零的原因是
+当你在以太坊区块链中转账时，你必须使用最低的货币单位（类似于从
+美元转换为美分），
+
+
+让我们使用第一个帐户提取：
+```
+Donation.deployed().then(function(instance) { return instance.receive_donation({ from: "0x06f4f7DD1Fd8edFE119417817890611E2710Cbe9" });});
+```
+返回
+```
+ndefined
+truffle(development)> Donation.deployed().then(function(instance) { return instance.receive_donation({ from: "0x06f4f7DD1Fd8edFE119417817890611E2710Cbe9" });});
+{
+  tx: '0x1c07e3b5e16f6f215a9518951ced2346b106496c03368ff866dfe6fb459e9a76',
+  receipt: {
+    transactionHash: '0x1c07e3b5e16f6f215a9518951ced2346b106496c03368ff866dfe6fb459e9a76',
+    transactionIndex: 0,
+    blockNumber: 4,
+    blockHash: '0x66639ebdbf233c18e58acf4acd032fce213ab877452eda0fd036a20d29de3af4',
+    from: '0x06f4f7dd1fd8edfe119417817890611e2710cbe9',
+    to: '0xf725b914e004cda152a0799c1411698bb73998e8',
+    cumulativeGasUsed: 32794,
+    gasUsed: 32794,
+    contractAddress: null,
+    logs: [],
+    logsBloom: '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+    status: true,
+    effectiveGasPrice: 3097723433,
+    type: '0x2',
+    rawLogs: []
+  },
+  logs: []
 }
 ```
 ## Why smart contracts 
+智能合约能做什么传统程序（普通的网络应用程序）做不到的？当涉及到更改网络上程序中变量的值时，我们可以使用远程过程调用。
+
+事实上，一个普通的web应用程序可以做智能合约所能做的一切，但速度更快、更便宜。关键的区别在于区块链解决方案可以是不可信的。这意味着您可以信任程序本身，但不能信任操作员。
 
 ## Summary
