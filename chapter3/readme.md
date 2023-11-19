@@ -56,6 +56,37 @@ Vyper程式設計語言認為，删除這些功能可以
 `pip install vyper`
 使用vyper進行安裝確認
 `vyper --version`
+然後運行
+`vyper hello.vy`
+
+這是智慧合約的位元組碼。 請記住，要部署智慧合約，需要位元組碼，但要訪問智慧合約，則需要abi。 那麼你是怎麼得到abi的呢？ 您可以通過運行以下命令來執行此操作：
+`vyper -f json hello.vy`
+還可以一起二進制和abi一起返回
+`vyper -f json,bytecode hello.vy`
+
+### Deploying a smart contract to Ganache 
+但讓我們用一種熟悉的方法來使用truffle 
+
+```
+mkdir hello_project
+hello_project/
+truffle init
+
+```
+修改`hello_project/build/contracts`裡面的
+然後用編譯過程輸出的abi或json填充abi欄位，用編譯過程的位元組碼輸出填充位元組碼欄位。 您需要用雙引號引用位元組碼值
+引號。
+不要忘記在abi欄位和位元組碼欄位之間加逗號。 這將為您提供類似於以下內容的內容：
+
+
+然後，您可以通過在migrations/2_deploy_hello.js中創建一個新檔案來創建一個遷移檔案來部署此智慧合約，如下所示
+
+使用了pipinstall但是報錯
+
+```
+dyMBP:Blockchain danyow$ vyper --version
+bash: vyper: command not found
+```
 
 
 ## Creating a smart contract with Vyper
