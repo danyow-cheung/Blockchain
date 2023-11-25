@@ -173,5 +173,39 @@ hold the address value (such as 0xdCad3a6d3569DF655070DEd06cb7A1b2Ccd1D3AF)
 
 
 ### Withdrawing ethers
+```
+@external
+def withdraw_donation():
+    assert msg.sender == self.donatee 
+    send(self.donatee,self.balance)
+```
+這裡，self.lance表示在該智慧中累積的所有醚
+契约 send短語是一個內寘函數，用於將錢轉移到第一個
+參數，在本例中為受贈人。
+囙此，讓我們在Truffle控制台中測試這個智慧合約。 確保您更改
+方法中的地址到智慧合約的地址。 你可以得到
+它使用truffle migrate命令，如下所示：
 
 ## Interacting with other smart contracts 
+> 結合vy和truffle
+結合`hello.vy`和`hello_project/migrations/2_deploy_hello.js`
+```
+var Donation = artifacts.require("Hello");
+module.exports = function(deployer)
+{
+    deployer.deployer(Hello);
+}
+```
+再次編譯hello.vy檔案以獲得介面和位元組碼。 打開我們的契约JSON檔案，`build/contents/Hello.json`檔案。 擦除所有
+內容，並將其替換為以下程式碼：
+```
+```
+你必須為你的智慧合約命名，因為這一次，你
+將部署兩個智慧合約。 如果你不給你的聰明人起個名字
+契约，它將有一個默認名稱，契约。 如果你只是
+想要部署一個智慧合約。
+
+Then, for your donation.vy, edit it, and add the following lines of code
+(highlighted in bold) to the code file (refer to the code file in the following
+GitLab link for a complete code file of donation.vy at https://gitlab.com/arjunask
+ykok/hands-on-blockchain-for-python-developers/blob/master/chapter_03/donation.vy):
