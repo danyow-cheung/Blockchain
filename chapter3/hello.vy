@@ -1,14 +1,16 @@
-name: public(bytes[24])
+name:public(Bytes[24])
+# name:Bytes[24]
+#https://docs.vyperlang.org/en/0.2.1/release-notes.html 變化
 
-@public 
+@external 
 def __init__():
     self.name = "hello world"
 
-@public 
-def change_name(new_name:bytes[24]):
+@external 
+def change_name(new_name:Bytes[24]):
     self.name = new_name
 
-@public
-def say_hello()-> bytes[32]:
-    return concat("hello",self.name)
+@external
+def say_hello()-> Bytes[32]:
+    return concat("hello",Bytes(self.name))
     

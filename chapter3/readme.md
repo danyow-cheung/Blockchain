@@ -87,12 +87,91 @@ truffle init
 dyMBP:Blockchain danyow$ vyper --version
 bash: vyper: command not found
 ```
+實在不行了上docker
+> https://docs.vyperlang.org/en/stable/installing-vyper.html
+```
+docker run -v $(pwd):/code/ -it --entrypoint /bin/bash vyperlang/vyper
+```
+進去了然後報錯
+```
+blockchain) dyMBP:Blockchain danyow$ docker run -v $(pwd):/code/ -it --entrypoint /bin/bash vyperlang/vyper
+root@52c0186fda65:/code# ls
+chapter1  chapter2  chapter3  readme.md
+root@52c0186fda65:/code# vyper chapter3/hello.vy 
+Error compiling: /code/chapter3/hello.vy
+vyper.exceptions.VyperException: Compilation failed with the following errors:
+
+FunctionDeclarationException: Unknown decorator: public
+  contract "/code/chapter3/hello.vy:11", function "say_hello", line 11:1 
+       10
+  ---> 11 @public
+  ---------^
+       12 def say_hello()-> bytes[32]:
+
+
+FunctionDeclarationException: Unknown decorator: public
+  contract "/code/chapter3/hello.vy:7", function "change_name", line 7:1 
+       6
+  ---> 7 @public
+  --------^
+       8 def change_name(new_name:bytes[24]):
+
+
+FunctionDeclarationException: Unknown decorator: public
+  contract "/code/chapter3/hello.vy:3", function "__init__", line 3:1 
+       2
+  ---> 3 @public
+  --------^
+       4 def __init__():
+
+
+UnknownType: No builtin or user-defined type named 'bytes'. Did you mean 'bytes1', or maybe 'bytes2'?
+  contract "/code/chapter3/hello.vy:1", line 1:13 
+  ---> 1 name: public(bytes[24])
+  --------------------^
+       2
+
+```
 
 
 ## Creating a smart contract with Vyper
+> chapeter3/hello.vy
+報錯
+`root@52c0186fda65:/code# vyper chapter3/hello.vy 
+Error compiling: /code/chapter3/hello.vy
+AttributeError: type object 'BytesT' has no attribute 'typ'
+`
+
 
 ## Deploying a smart contract to Ganache
+> 因為要用到vyper裡面的東西 fail
+
 
 ## Going deeper into Vyper 
+**代碼解析**
+`name:public(bytes[24])`
+The array of bytes is basically a string. The variable called name has a type of
+array of bytes or string. Its visibility is public. If you want to set it to private,
+then just omit the public keyword, as follows:
+`name:bytes[24]`
+ 
+### Data types
+> 創建donation.vy 
+**代碼解析**
+
+- strcut:
+  第一個稱為結構。 Vyper中的結構就像另一種程式設計語言中的結構； 它是不同資料類型的容器。 您可以按以下管道訪問其成員：
+- wei:
+  我們將要瞭解的第二種資料類型是
+uint256（wei）。 這是指可以容納的特定數量的乙醚。 如您所知，1乙太是1000000000000000000wei（18個零）。 要保存這麼大的數量，需要特定的資料類型
+
+- Timestamp:
+- Address:
+  The fourth one is the address data type. This is designed to
+hold the address value (such as 0xdCad3a6d3569DF655070DEd06cb7A1b2Ccd1D3AF)
+
+
+
+### Withdrawing ethers
 
 ## Interacting with other smart contracts 

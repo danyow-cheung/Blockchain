@@ -1,0 +1,14 @@
+strcut DonaturDetail:
+    sum : uint256(wei)
+    name: Bytes[100]
+    time:timestamp
+
+donatur_details: (map(address,DonaturDetail))
+
+
+
+@external
+def withdraw_donation():
+    assert msg.sender == self.donatee 
+    send(self.donatee,self.balance)
+    
